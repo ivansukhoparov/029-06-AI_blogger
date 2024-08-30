@@ -7,6 +7,11 @@ import {IGptService} from "./app/interfaces/gpt.servise.interface";
 import {ContentRepository} from "./app/content.repository";
 import {PromptsService} from "./app/prompts.service";
 import {ContentService} from "./app/content.service";
+import {SchedulerRepository} from "./scheduler/scheduler.repository";
+import {SchedulerService} from "./scheduler/scheduler.service";
+import {ICommand} from "./command.bus/interface.command";
+import {CommandBus} from "./command.bus/command.bus";
+import {Scheduler} from "./scheduler/scheduler";
 
 
 export const container = new Container()
@@ -21,8 +26,15 @@ container.bind<IGptService>(GptService).toSelf().inSingletonScope()
 
 // Repositories:
 container.bind<ContentRepository>(ContentRepository).toSelf().inSingletonScope()
+container.bind<SchedulerRepository>(SchedulerRepository).toSelf().inSingletonScope()
 
 // Services:
 container.bind<PromptsService>(PromptsService).toSelf().inSingletonScope()
+container.bind<SchedulerService>(SchedulerService).toSelf().inSingletonScope()
+// COMMANDS:
+//container.bind<ICommand>("ICommand").to(Command).inSingletonScope()
+// The command bus binding after all commands have been bound.
+container.bind(CommandBus).to(CommandBus).inSingletonScope()
 
 container.bind<ContentService>(ContentService).toSelf().inSingletonScope()
+container.bind<Scheduler>(Scheduler).toSelf().inSingletonScope()
