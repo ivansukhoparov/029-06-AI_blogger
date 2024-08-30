@@ -1,4 +1,4 @@
-import {Db, MongoClient} from "mongodb";
+import {Db, MongoClient, WithId} from "mongodb";
 import {inject, injectable} from "inversify";
 import {AppSettings} from "../../settings/app.settings";
 import {sleep} from "../../utils/sllep";
@@ -76,4 +76,12 @@ export class MongoDbAdapter {
         return this.dataBase
     }
 
+    mapper<T>(input: WithId<Omit<T,"id">>):T {
+        const keys = Object.keys(input)
+        return keys.reduce((acc: any, key: string) => {
+            if (key === "_id") acc.id = input._id.toString()
+            else acc[key] = input[key]
+            return acc
+        }, {})
+    }
 }
