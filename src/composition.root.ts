@@ -12,6 +12,7 @@ import {SchedulerService} from "./scheduler/scheduler.service";
 import {ICommand} from "./command.bus/interface.command";
 import {CommandBus} from "./command.bus/command.bus";
 import {Scheduler} from "./scheduler/scheduler";
+import {TelegramAdapter} from "./app/adapters/telegram.adapter";
 
 
 export const container = new Container()
@@ -23,6 +24,7 @@ container.bind<ContentSettings>(ContentSettings).toSelf().inSingletonScope()
 // Adapters:
 container.bind<MongoDbAdapter>(MongoDbAdapter).toSelf().inSingletonScope()
 container.bind<IGptService>(GptService).toSelf().inSingletonScope()
+container.bind<TelegramAdapter>(TelegramAdapter).toSelf().inSingletonScope()
 
 // Repositories:
 container.bind<ContentRepository>(ContentRepository).toSelf().inSingletonScope()
