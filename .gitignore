@@ -1,3 +1,13 @@
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/
+responses/
+dist/
+src/_trush
+
 .DS_Store
 .idea
 .vscode
@@ -11,9 +21,7 @@
 *.psd
 *.sublime*
 dist
-node_modules/
 npm-debug.*
 Thumbs.db
 .env
 .db
-
