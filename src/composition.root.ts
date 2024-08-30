@@ -1,6 +1,6 @@
 import {Container} from "inversify";
 import {AppSettings} from "./settings/app.settings";
-import {ContentSettings} from "./settings/contentSettings";
+import {ContentSettings} from "./settings/content.settings";
 import {MongoDbAdapter} from "./app/adapters/mongodb.adapter";
 import {GptService} from "./app/gpt.service";
 import {IGptService} from "./app/interfaces/gpt.servise.interface";

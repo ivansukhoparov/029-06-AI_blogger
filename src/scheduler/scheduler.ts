@@ -1,7 +1,7 @@
 import {inject, injectable} from "inversify";
 import {SchedulerRepository} from "./scheduler.repository";
 import {TaskType} from "./types/tasks";
-import {sleep} from "../utils/sllep";
+import {sleep} from "../utils/sleep";
 import {TIME} from "../utils/times";
 import {CommandBus} from "../command.bus/command.bus";
 import {ICommand} from "../command.bus/interface.command";
