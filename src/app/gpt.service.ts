@@ -17,31 +17,32 @@ export class GptService implements IGptService {
 
             const requestType = this._getRequestTypeFromPrompt(promptMessage)
             writeDownToFile(promptMessage, `${time}--1-${requestType}_request.json`)
+
             const response = await this.openai.chat.completions.create({
                 model: "gpt-4o",
                 messages: promptMessage
             });
-            console.log("response", response)
             writeDownToFile(response, `${time}--2-${requestType}_response.json`)
-            console.log("response.choices[0].message.content", response.choices[0].message.content)
-            const rawString = response.choices[0].message.content
-            console.log("rawString", rawString)
 
+            const rawString = response.choices[0].message.content
             let jsonString: string
             let json: any
+
             try {
                 jsonString = rawString
                     .replace(/```json\n|```/g, '')
+
                 json = JSON.parse(jsonString)
             } catch {
                 jsonString = rawString
                     .replace(/```json\n|```/g, '')
                     .replace(/[\n\r\t]/g, '')
+
                 json = JSON.parse(jsonString)
             }
-            // console.log("json", json)
+
             writeDownToFile(json, `${time}--3-${requestType}_parsed_response.json`)
-            //
+
             return json;
         } catch (err) {
             console.log(err)
