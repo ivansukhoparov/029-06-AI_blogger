@@ -1,6 +1,7 @@
 import {MongoDbAdapter} from "./adapters/mongodb.adapter";
 import {Collection, ObjectId} from "mongodb";
 import {inject, injectable} from "inversify";
+import {ContentItem} from "./types/content";
 
 
 @injectable()
@@ -13,13 +14,41 @@ export class ContentRepository {
 
     async extendContentPlan(contentPlan: Array<any>) {
         try {
-            await this.content.insertMany(contentPlan)
-            return true
+            const isInserted = await this.content.insertMany(contentPlan)
+            const ids = Object
+                .values(isInserted.insertedIds)
+                .map(el => {
+                    return el.toString()
+                })
+            return ids
+        } catch (err) {
+            console.log(err)
+            return null
+        }
+    }
+
+    async addPost(post: any) {
+        try {
+            const addedPost = await this.content.insertOne(post)
+            return addedPost.insertedId.toString()
         } catch (err) {
             console.log(err)
             return false
         }
 
+    }
+
+    async createContentItem(contentItem: ContentItem): Promise<string | null> {
+        try {
+            const createdItem = await this.content.insertOne(contentItem)
+            if (!createdItem.insertedId) {
+                return null
+            }
+            return createdItem.insertedId.toString()
+        } catch (err) {
+            console.log(err)
+            return null
+        }
     }
 
     async getContentPlanItem(where: any) {
