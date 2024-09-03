@@ -18,7 +18,7 @@ export class TelegramAdapter {
 
     async sendMessage(chatId: number, message: string) {
         try {
-            await this.bot.sendMessage(chatId, message)
+            await this.bot.sendMessage(chatId, message, {parse_mode:"HTML"})
         } catch (err) {
             console.log(err)
         }
@@ -36,3 +36,4 @@ export class TelegramAdapter {
         }
     }
 }
+
