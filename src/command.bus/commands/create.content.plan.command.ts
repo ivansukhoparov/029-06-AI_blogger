@@ -6,7 +6,7 @@ import {ContentRepository} from "../../app/content.repository";
 import {SchedulerService} from "../../scheduler/scheduler.service";
 import {ContentItem} from "../../app/types/content";
 
-import {ContentPlanParamsType, FREQUENCIES, TIMEFRAMES} from "../../app/common/frequency";
+import {ContentPlanParamsType, FREQUENCIES, TIMEFRAMES} from "../../app/common/common";
 import {ICommand} from "../interface.command";
 
 @injectable()
