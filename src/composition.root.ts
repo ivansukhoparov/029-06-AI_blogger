@@ -13,6 +13,7 @@ import {ICommand} from "./command.bus/interface.command";
 import {CommandBus} from "./command.bus/command.bus";
 import {Scheduler} from "./scheduler/scheduler";
 import {TelegramAdapter} from "./app/adapters/telegram.adapter";
+import {CreateContentPlanCommand} from "./command.bus/commands/create.content.plan.command";
 
 
 export const container = new Container()
@@ -33,8 +34,9 @@ container.bind<SchedulerRepository>(SchedulerRepository).toSelf().inSingletonSco
 // Services:
 container.bind<PromptsService>(PromptsService).toSelf().inSingletonScope()
 container.bind<SchedulerService>(SchedulerService).toSelf().inSingletonScope()
-// COMMANDS:
-//container.bind<ICommand>("ICommand").to(Command).inSingletonScope()
+
+// COMMANDS:CreateContentPlanCommand
+container.bind<ICommand>("ICommand").to(CreateContentPlanCommand).inSingletonScope()
 // The command bus binding after all commands have been bound.
 container.bind(CommandBus).to(CommandBus).inSingletonScope()
 
