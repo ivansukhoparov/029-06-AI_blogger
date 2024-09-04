@@ -14,6 +14,15 @@ export class SchedulerRepository {
         this.schedule = this.dbAdapter.connect.collection<TaskBaseType>("schedule")
     }
 
+    async getPendingTasksCount():Promise<number|null>{
+        try{
+            return await this.schedule.countDocuments({status:"pending"})
+        }catch (err){
+            console.log(err)
+            return null
+        }
+    }
+
     async createTask (taskDto:TaskCreateDto):Promise<boolean>{
         try {
             const task:InsertOneResult<TaskCreateDto> = await this.schedule.insertOne(taskDto)
