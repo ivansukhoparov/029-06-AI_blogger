@@ -19,7 +19,7 @@ export class CreateContentPlanCommand implements ICommand {
                 @inject(SchedulerService) private schedulerService: SchedulerService) {
     }
 
-    async execute(params: ContentPlanParamsType) {
+    async execute(params: ContentPlanParamsType):Promise<boolean> {
         const prompt = this.promptService.generateContentPlanPrompt(params)
         const rawContentPlan = await this.gptService.jsonRequest(prompt)
         const contentAndScheduleTaskPromises =
