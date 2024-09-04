@@ -49,4 +49,9 @@ export class Scheduler {
         }
     }
 
+    async startCheck(){
+        const pendingTasksCount = await this.schedulerRepository.getPendingTasksCount()
+
+    }
+
 }
