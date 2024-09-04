@@ -3,6 +3,17 @@ export type ContentPlanParamsType = {
     timeframe: string
     frequency: string
 }
+
+export type UpdatePostContentCommandParamType ={
+    postId:string,
+    targetPlatform:string
+}
+
+export type PublicationPostCommandType ={
+    postId:string,
+    targetPlatform:string
+}
+
 export const contentPlanParams: ContentPlanParamsType = {
     startDate: "2024-09-01",
     timeframe: "week",
