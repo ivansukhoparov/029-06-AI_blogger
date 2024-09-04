@@ -29,6 +29,7 @@ export type ContentItemType = {
     keywords: Array<string>
     contentType: string
     shortDescription: string | null
+     textContent: string | null
     shortContentRu: string | null
     shortContentEn: string | null
     fullContentRu: string | null
@@ -40,7 +41,7 @@ export type ContentItemType = {
 }
 
 export class ContentItem {
-    public id:string|null = null
+    public id: string | null = null
     public createdAt: string
     public updatedAt: string | null = null
     public isPublicized: boolean = false
@@ -53,6 +54,7 @@ export class ContentItem {
     public keywords: Array<string>
     public contentType: string
     public shortDescription: string | null = null
+    public textContent: string | null
     public shortContentRu: string | null = null
     public shortContentEn: string | null = null
     public fullContentRu: string | null = null
@@ -70,6 +72,7 @@ export class ContentItem {
         this.outline = item.outline
         this.keywords = item.keywords
         this.contentType = item.content_type
+        this.textContent =  null
     }
 }
 
