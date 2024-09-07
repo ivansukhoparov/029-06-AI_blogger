@@ -29,8 +29,8 @@ export class MongoDbAdapter {
             await this.client.connect();
             // Check connection
             await this.client.db("admin").command({ping: 1});
-            console.log("Mongo server connection successful");
             this.dataBase = this.client.db(this.appSettings.mongoDbName)
+            console.log("Mongo server connection successful to: " + this.appSettings.mongoUri + this.appSettings.mongoDbName);
             return true;
         } catch {
             await this.client.close();
