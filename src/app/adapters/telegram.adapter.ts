@@ -24,6 +24,14 @@ export class TelegramAdapter {
         }
     }
 
+    async serviceMsg( message: string) {
+        try {
+            await this.bot.sendMessage(420114791, message)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     async sendPhoto(chatId: TelegramBot.ChatId,
                     photo: string | Stream | Buffer,
                     options?: TelegramBot.SendPhotoOptions,
