@@ -16,6 +16,7 @@ import {TelegramAdapter} from "./app/adapters/telegram.adapter";
 import {CreateContentPlanCommand} from "./command.bus/commands/create.content.plan.command";
 import {PublicationPostCommand} from "./command.bus/commands/publication.post.command";
 import {UpdatePostContentCommand} from "./command.bus/commands/update.post.content.command";
+import {TelegramService} from "./app/telegram.service";
 
 
 export const container = new Container()
@@ -36,6 +37,7 @@ container.bind<SchedulerRepository>(SchedulerRepository).toSelf().inSingletonSco
 // Services:
 container.bind<PromptsService>(PromptsService).toSelf().inSingletonScope()
 container.bind<SchedulerService>(SchedulerService).toSelf().inSingletonScope()
+container.bind<TelegramService>(TelegramService).toSelf().inSingletonScope()
 
 // COMMANDS:CreateContentPlanCommand
 container.bind<ICommand>("ICommand").to(CreateContentPlanCommand).inSingletonScope()
