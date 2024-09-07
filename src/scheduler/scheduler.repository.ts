@@ -49,7 +49,7 @@ export class SchedulerRepository {
         try {
             const tasks:Array<WithId<TaskBaseType>> = await this.schedule
                 .find({status: "pending"})
-                .sort("executionTime", -1)
+                .sort("executionTime", 1)
                 .limit(1)
                 .toArray()
 
