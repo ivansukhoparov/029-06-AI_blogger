@@ -51,13 +51,18 @@ export class ContentRepository {
         }
     }
 
-    async getContentPlanItem(where: any):Promise<ContentItem> {
+    async getContentPlanItem(where: { id: string }): Promise<ContentItem> {
         try {
             const mappedWhere = this._toDbIdMapper(where)
             const dbResponse = await this.content.findOne(mappedWhere)
-            return this._mapper(dbResponse)
+            if (dbResponse) {
+                return this._mapper(dbResponse)
+            } else {
+                return null
+            }
         } catch (err) {
             console.log(err)
+            return null
         }
     }
 
@@ -85,8 +90,9 @@ export class ContentRepository {
     _toDbIdMapper(input: any) {
         const keys = Object.keys(input)
         return keys.reduce((acc: any, key: string) => {
-            if (key === "id") acc._id = new ObjectId(input.id)
-            else acc[key] = input[key]
+            if (key === "id") {
+                acc._id = new ObjectId(input.id as string)
+            } else acc[key] = input[key]
             return acc
         }, {})
     }

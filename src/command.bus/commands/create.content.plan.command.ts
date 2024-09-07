@@ -8,18 +8,20 @@ import {ContentItem} from "../../app/types/content";
 
 import {ContentPlanParamsType, FREQUENCIES, TIMEFRAMES} from "../../app/common/common";
 import {ICommand} from "../interface.command";
+import {AppSettings} from "../../settings/app.settings";
 
 @injectable()
 export class CreateContentPlanCommand implements ICommand {
-    name = "CreateContentPlanCommand"
+    public readonly name = "CreateContentPlanCommand"
 
-    constructor(@inject(GptService) private gptService: IGptService,
+    constructor(@inject(AppSettings) private appSettings: AppSettings,
+                @inject(GptService) private gptService: IGptService,
                 @inject(PromptsService) private promptService: PromptsService,
                 @inject(ContentRepository) private contentRepository: ContentRepository,
                 @inject(SchedulerService) private schedulerService: SchedulerService) {
     }
 
-    async execute(params: ContentPlanParamsType):Promise<boolean> {
+    async execute(params: ContentPlanParamsType): Promise<boolean> {
         const prompt = this.promptService.generateContentPlanPrompt(params)
         const rawContentPlan = await this.gptService.jsonRequest(prompt)
         const contentAndScheduleTaskPromises =
@@ -50,6 +52,21 @@ export class CreateContentPlanCommand implements ICommand {
             contentAndScheduleTaskPromises.push(this._createContentAndScheduleTaskPromise(item, date))
             date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + dayOffset));
         }
+        const nextContentPlanSchedule = this.schedulerService.createTask(
+            "CreateContentPlanCommand",
+            {
+                date: new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() -1)),
+                hours: 16,
+                minutes: 0
+            },
+            {
+                startDate: new Date(Date.UTC(year, month, day)).toISOString().split("T")[0],
+                timeframe: "week",
+                frequency: "daily",
+            },
+            "content_plan_generate"
+        )
+        contentAndScheduleTaskPromises.push(nextContentPlanSchedule)
         return contentAndScheduleTaskPromises
     }
 
@@ -62,11 +79,48 @@ export class CreateContentPlanCommand implements ICommand {
         const publicationDate = new Date(date)
         publicationDate.setHours(publicationDate.getHours() + 9)
 
-        return await this.schedulerService.createTask(
-            "PublicPostCommand",
-            publicationDate,
-            {postId: postId}
+        const isGenerateTask = await this.schedulerService.createTask(
+            "UpdatePostContentCommand",
+            {
+                date: date,
+                hours: 0,
+                minutes: 0
+            },
+            {postId: postId},
+            "content_generate"
         )
+
+        const isPreviewSendTask = await this.schedulerService.createTask(
+            "PublishPostCommand",
+            {
+                date: date,
+                hours: 0,
+                minutes: 5
+            },
+            {
+                postId: postId,
+                platform: "telegram",
+                target: 420114791
+            },
+            "content_preview"
+        )
+
+        const isPostTask = await this.schedulerService.createTask(
+            "PublishPostCommand",
+            {
+                date: date,
+                hours: 9,
+                minutes: 0
+            },
+            {
+                postId: postId,
+                platform: "telegram",
+                target: this.appSettings.telegramChanelId
+            },
+            "content_publish"
+        )
+
+        return isPostTask && isGenerateTask && isPreviewSendTask
     }
 }
 
