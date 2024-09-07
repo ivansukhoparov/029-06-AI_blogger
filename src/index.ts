@@ -2,9 +2,11 @@ import "reflect-metadata"
 import {MongoDbAdapter} from "./app/adapters/mongodb.adapter";
 import {container} from "./composition.root";
 import {AppSettings} from "./settings/app.settings";
+import {Scheduler} from "./scheduler/scheduler";
+import {GptService} from "./app/gpt.service";
 
 
-// export const aiBloggerDb = new db("mongodb://0.0.0.0:27017", "ai-blogger");
+// export const aiBloggerDb = container.resolve<MongoDbAdapter>(MongoDbAdapter)
 
 // const s = async () => {
 //     await aiBloggerDb.run();
@@ -26,7 +28,34 @@ import {AppSettings} from "./settings/app.settings";
 
 const set = container.resolve(AppSettings)
 console.log(set)
+// export const global = container.resolve<ContentSettings>(ContentSettings);
+// const db = container.resolve<MongoDbAdapter>(MongoDbAdapter)
+// db.init()
 
-const db = container.resolve<MongoDbAdapter>(MongoDbAdapter)
-db.init()
+// const s = async () => {
+//     const aiBloggerDb = container.resolve<MongoDbAdapter>(MongoDbAdapter)
+//     await aiBloggerDb.init();
+//     console.log("DB started")
+//     const scheduler = container.resolve<Scheduler>(Scheduler)
+//     scheduler.start()
+// }
+// s()
 
+const tets = async () => {
+    const gpt = container.resolve<GptService>(GptService)
+    const gptConnection = await gpt.test()
+
+}
+
+const start = async () => {
+    const gpt = container.resolve<GptService>(GptService)
+    const gptConnection = await gpt.test()
+    if (gptConnection === false) return
+    const aiBloggerDb = container.resolve<MongoDbAdapter>(MongoDbAdapter)
+    await aiBloggerDb.init();
+    console.log("DB started")
+    const scheduler = container.resolve<Scheduler>(Scheduler)
+    scheduler.start()
+}
+
+start()
