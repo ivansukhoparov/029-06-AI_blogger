@@ -6,12 +6,13 @@ export type ContentPlanParamsType = {
 
 export type UpdatePostContentCommandParamType ={
     postId:string,
-    targetPlatform:string
+    platform:string
 }
 
 export type PublicationPostCommandType ={
     postId:string,
-    targetPlatform:string
+    platform:string
+    target:number|string
 }
 
 export const contentPlanParams: ContentPlanParamsType = {

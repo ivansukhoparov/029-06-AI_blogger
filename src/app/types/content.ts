@@ -41,7 +41,7 @@ export type ContentItemType = {
 }
 
 export class ContentItem {
-    public id: string | null = null
+    public id?: string
     public createdAt: string
     public updatedAt: string | null = null
     public isPublicized: boolean = false

@@ -3,6 +3,7 @@ export type TaskBaseType = {
     executionTime: string
     args: any
     status: TaskStatus
+    description?:string
 }
 
 export type TaskStatus = "pending" | "success" | "failed"
