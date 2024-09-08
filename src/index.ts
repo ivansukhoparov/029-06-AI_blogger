@@ -1,10 +1,9 @@
-import "reflect-metadata"
-import {MongoDbAdapter} from "./app/adapters/mongodb.adapter";
-import {container} from "./composition.root";
-import {AppSettings} from "./settings/app.settings";
-import {Scheduler} from "./scheduler/scheduler";
-import {GptService} from "./app/gpt.service";
-
+import 'reflect-metadata';
+import { MongoDbAdapter } from './app/adapters/mongodb.adapter';
+import { container } from './composition.root';
+import { AppSettings } from './settings/app.settings';
+import { Scheduler } from './scheduler/scheduler';
+import { GptService } from './app/gpt.service';
 
 // export const aiBloggerDb = container.resolve<MongoDbAdapter>(MongoDbAdapter)
 
@@ -26,8 +25,8 @@ import {GptService} from "./app/gpt.service";
 // }
 //  s()
 
-const set = container.resolve(AppSettings)
-console.log(set)
+const set = container.resolve(AppSettings);
+console.log(set);
 // export const global = container.resolve<ContentSettings>(ContentSettings);
 // const db = container.resolve<MongoDbAdapter>(MongoDbAdapter)
 // db.init()
@@ -42,20 +41,19 @@ console.log(set)
 // s()
 
 const tets = async () => {
-    const gpt = container.resolve<GptService>(GptService)
-    const gptConnection = await gpt.test()
-
-}
+  const gpt = container.resolve<GptService>(GptService);
+  const gptConnection = await gpt.test();
+};
 
 const start = async () => {
-    const gpt = container.resolve<GptService>(GptService)
-    const gptConnection = await gpt.test()
-    if (gptConnection === false) return
-    const aiBloggerDb = container.resolve<MongoDbAdapter>(MongoDbAdapter)
-    await aiBloggerDb.init();
-    console.log("DB started")
-    const scheduler = container.resolve<Scheduler>(Scheduler)
-    scheduler.start()
-}
+  const gpt = container.resolve<GptService>(GptService);
+  const gptConnection = await gpt.test();
+  if (gptConnection === false) return;
+  const aiBloggerDb = container.resolve<MongoDbAdapter>(MongoDbAdapter);
+  await aiBloggerDb.init();
+  console.log('DB started');
+  const scheduler = container.resolve<Scheduler>(Scheduler);
+  scheduler.start();
+};
 
-start()
+start();

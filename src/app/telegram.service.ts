@@ -1,11 +1,10 @@
-import {injectable} from "inversify";
+import { injectable } from 'inversify';
 
 @injectable()
 export class TelegramService {
-    constructor() {
-    }
+  constructor() {}
 
-    publicatePost(content: string) {
-        return true
-    }
+  publicatePost(content: string) {
+    return true;
+  }
 }
